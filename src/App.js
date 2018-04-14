@@ -8,6 +8,7 @@ class App extends Component {
       width: 40,
       height: 40,
       board: [],
+      valBoard: [],
     };
     this.handleClick = this.handleClick.bind(this)
     this.clearAll = this.clearAll.bind(this)
@@ -16,37 +17,35 @@ class App extends Component {
   componentDidMount(){
     var myGridArray = [];
     var myRows = [];
+
+    var gridVal = [];
+    var rowVal = [];
     for (let i=0; i<this.state.height; i++){
       for (let x=0; x<this.state.width; x++){
-        myRows.push(<Cell key={i+x} handleClick={this.handleClick} />)
+        let ranNum = Math.round((Math.random()));
+        myRows.push(<Cell key={i+x} handleClick={this.handleClick} data-value={ranNum}/>)
+        rowVal.push(ranNum)
       }
       myGridArray.push(myRows);
       myRows = [];
+      gridVal.push(rowVal);
+      rowVal = [];
     }
 
     this.setState({
-      board: myGridArray
+      board: myGridArray,
+      valBoard: gridVal
     })
 
   }
 
   componentDidUpdate(){
+    console.log(this.state.valBoard)
     //console.log(this.state.board[0][1].props.value);
   }
 
   clearAll(){
-    console.log("clearing")
-    const boardCopy= this.state.board.slice();
-    boardCopy.map(x => x.setAttribute('data-value', 0))
-    /*for (let i=0; i<boardCopy; i++){
-      for(let x=0; x<boardCopy[i]; x++){
-        console.log(boardCopy[x])
-        boardCopy[x].setAttribute('data-value', 0)
-      }
-    }*/
-    this.setState({
-      board: boardCopy,
-    });
+
   }
 
   handleClick(e){
@@ -69,7 +68,7 @@ class App extends Component {
 
 function Cell(props) {
     return (
-      <div className="cell" onClick={props.handleClick} data-value={Math.round((Math.random()))}></div>
+      <div className="cell" onClick={props.handleClick} data-value={props['data-value']}></div>
     )
 }
 
