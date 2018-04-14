@@ -16,11 +16,10 @@ class App extends Component {
 
   handleClick(e){
     e.preventDefault();
-    console.log("clicked")
     this.setState({
-      alive: true,
+      alive: !this.state.alive,
     });
-    console.log(this.state.alive)
+    console.log(this.state.alive);
   }
 
   render() {
@@ -31,21 +30,24 @@ class App extends Component {
 }
 
 function Cell(props) {
-    console.log(props)
     return (
       <div className="cell" onClick={props.handleClick}></div>
     )
 }
 
 function Grid(props){
-    var myArray = [];
+    var myGridArray = [];
+    var myRows = [];
     for (let i=0; i<props.height; i++){
       for (let x=0; x<props.width; x++){
-        myArray.push(<Cell key={i+x}/>)
+        myRows.push(<Cell key={i+x} handleClick={props.handleClick}/>)
       }
+      myGridArray.push(myRows);
+      myRows = [];
     }
+
     return(
-      <div className="gridContainer">{myArray}</div>
+      <div className="gridContainer">{myGridArray}</div>
     )
   }
 
