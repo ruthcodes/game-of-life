@@ -10,6 +10,7 @@ class App extends Component {
       board: [],
     };
     this.handleClick = this.handleClick.bind(this)
+    this.clearAll = this.clearAll.bind(this)
   }
 
   componentDidMount(){
@@ -33,6 +34,20 @@ class App extends Component {
     //console.log(this.state.board[0][1].props.value);
   }
 
+  clearAll(){
+    console.log("clearing")
+    const boardCopy= this.state.board.slice();
+    boardCopy.map(x => x.setAttribute('data-value', 0))
+    /*for (let i=0; i<boardCopy; i++){
+      for(let x=0; x<boardCopy[i]; x++){
+        console.log(boardCopy[x])
+        boardCopy[x].setAttribute('data-value', 0)
+      }
+    }*/
+    this.setState({
+      board: boardCopy,
+    });
+  }
 
   handleClick(e){
     e.preventDefault();
@@ -47,7 +62,7 @@ class App extends Component {
 
   render() {
     return (
-        <Grid board={this.state.board}/>
+        <Grid board={this.state.board} clearAll={this.clearAll}/>
     );
   }
 }
@@ -60,7 +75,11 @@ function Cell(props) {
 
 function Grid(props){
     return(
-      <div className="gridContainer">{props.board}</div>
+      <div className="gridContainer">
+      {props.board}
+      <button onClick={props.clearAll}>Clear All</button>
+      </div>
+
     )
   }
 
