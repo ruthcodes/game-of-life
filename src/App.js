@@ -5,7 +5,6 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      alive: false,
       width: 40,
       height: 40,
       board: [],
@@ -18,7 +17,7 @@ class App extends Component {
     var myRows = [];
     for (let i=0; i<this.state.height; i++){
       for (let x=0; x<this.state.width; x++){
-        myRows.push(<Cell key={i+x} handleClick={this.handleClick}/>)
+        myRows.push(<Cell key={i+x} handleClick={this.handleClick} value={Math.round((Math.random()))}/>)
       }
       myGridArray.push(myRows);
       myRows = [];
@@ -28,6 +27,10 @@ class App extends Component {
       board: myGridArray
     })
 
+  }
+
+  componentDidUpdate(){
+    console.log(this.state.board[0][1].props.value);
   }
 
 
