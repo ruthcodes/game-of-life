@@ -14,7 +14,7 @@ class App extends Component {
   handleClick(e){
     e.preventDefault();
     console.log("clicked")
-    this.setState = ({
+    this.setState({
       alive: true,
     });
     console.log(this.state.alive)
@@ -23,7 +23,7 @@ class App extends Component {
   render() {
     return (
         <Cell handleClick={this.handleClick}/>
-    )
+    );
   }
 }
 
