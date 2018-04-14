@@ -7,6 +7,9 @@ class App extends Component {
     super(props);
     this.state = {
       alive: false,
+      width: 20,
+      height: 20,
+      board: [],
     };
     this.handleClick = this.handleClick.bind(this)
   }
@@ -22,7 +25,7 @@ class App extends Component {
 
   render() {
     return (
-        <Cell handleClick={this.handleClick}/>
+        <Grid height={this.state.height} width={this.state.width} handleClick={this.handleClick}/>
     );
   }
 }
@@ -33,6 +36,19 @@ function Cell(props) {
       <div className="cell" onClick={props.handleClick}></div>
     )
 }
+
+function Grid(props){
+    var myArray = [];
+    for (let i=0; i<props.height; i++){
+      for (let x=0; x<props.width; x++){
+        myArray.push(<Cell />)
+      }
+    }
+    return(
+      <div className="gridContainer">{myArray}</div>
+    )
+  }
+
 
 
 
