@@ -7,8 +7,8 @@ class App extends Component {
     super(props);
     this.state = {
       alive: false,
-      width: 20,
-      height: 20,
+      width: 40,
+      height: 40,
       board: [],
     };
     this.handleClick = this.handleClick.bind(this)
@@ -41,7 +41,7 @@ function Grid(props){
     var myArray = [];
     for (let i=0; i<props.height; i++){
       for (let x=0; x<props.width; x++){
-        myArray.push(<Cell />)
+        myArray.push(<Cell key={i+x}/>)
       }
     }
     return(
