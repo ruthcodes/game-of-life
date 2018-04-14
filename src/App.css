@@ -10,5 +10,8 @@
     width: 480px;
     height: 480px;
     margin: 0 auto;
+}
 
+[data-value="1"] {
+  background-color: red;
 }
