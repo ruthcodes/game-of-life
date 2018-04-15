@@ -7,7 +7,6 @@ class App extends Component {
     this.state = {
       width: 40,
       height: 40,
-      board: [],
       valBoard: [],
     };
     this.handleClick = this.handleClick.bind(this)
@@ -15,27 +14,19 @@ class App extends Component {
   }
 
   componentDidMount(){
-    var myGridArray = [];
-    var myRows = [];
-
     var gridVal = [];
     var rowVal = [];
     for (let i=0; i<this.state.height; i++){
       for (let x=0; x<this.state.width; x++){
-        //let ranNum = Math.round((Math.random()));
         //10% chance of cell being 'alive' at initiation
         let boo = (Math.random()*100) < 10;
-        myRows.push(<Cell key={i+x} handleClick={this.handleClick} data-value={boo}/>)
         rowVal.push(boo)
       }
-      myGridArray.push(myRows);
-      myRows = [];
       gridVal.push(rowVal);
       rowVal = [];
     }
 
     this.setState({
-      board: myGridArray,
       valBoard: gridVal
     })
 
@@ -43,31 +34,20 @@ class App extends Component {
 
   componentDidUpdate(){
     console.log(this.state.valBoard)
-    //console.log(this.state.board[0][1].props.value);
   }
 
   clearAll(){
-    var myGridArray = [];
-    var myRows = [];
-
     var gridVal = [];
     var rowVal = [];
     for (let i=0; i<this.state.height; i++){
       for (let x=0; x<this.state.width; x++){
-        //let ranNum = Math.round((Math.random()));
-        //10% chance of cell being 'alive' at initiation
-
-        myRows.push(<Cell key={i+x} handleClick={this.handleClick} data-value={false}/>)
         rowVal.push(false)
       }
-      myGridArray.push(myRows);
-      myRows = [];
       gridVal.push(rowVal);
       rowVal = [];
     }
 
     this.setState({
-      board: myGridArray,
       valBoard: gridVal
     })
 
@@ -75,38 +55,40 @@ class App extends Component {
   }
 
   handleClick(e){
+    let col = e.target.getAttribute('data-key');
+    let row = e.target.getAttribute('data-row');
     e.preventDefault();
-    console.log("value before:" + e.target.getAttribute('data-value'));
+
     e.target.setAttribute('data-value', true);
-    let board = this.state.board.slice();
+    let board = this.state.valBoard.slice();
+    board[row][col] = true;
     this.setState({
-      board: board,
+      valBoard: board,
     });
-    console.log("value after: " + e.target.getAttribute('data-value'));
+
   }
 
   render() {
     return (
-        <Grid board={this.state.board} clearAll={this.clearAll}/>
+        <Grid board={this.state.valBoard} clearAll={this.clearAll} handleClick={this.handleClick}/>
     );
   }
 }
 
 function Cell(props) {
     return (
-      <div className="cell" onClick={props.handleClick} data-value={props['data-value']}></div>
+      <div className="cell" onClick={props.handleClick} data-value={props['data-value']} data-row={props['data-row']} data-key={props['data-key']}></div>
     )
 }
 
 function Grid(props){
-    return(
-      <div className="gridContainer">
-      {props.board}
+  return(
+    <div className="gridContainer">
+      {props.board.map((nested, x) => nested.map((element, i) => <Cell key={i+x} data-row={x} data-key={i} handleClick={props.handleClick} data-value={element}/>))}
       <button onClick={props.clearAll}>Clear All</button>
-      </div>
-
-    )
-  }
+    </div>
+  )
+}
 
 
 
