@@ -12,6 +12,6 @@
     margin: 0 auto;
 }
 
-[data-value="1"] {
+[data-value="true"] {
   background-color: red;
 }

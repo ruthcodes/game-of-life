@@ -22,8 +22,9 @@ class App extends Component {
     var rowVal = [];
     for (let i=0; i<this.state.height; i++){
       for (let x=0; x<this.state.width; x++){
-        let ranNum = Math.round((Math.random()));
-        myRows.push(<Cell key={i+x} handleClick={this.handleClick} data-value={ranNum}/>)
+        //let ranNum = Math.round((Math.random()));
+        let boo = (Math.random()*100) < 10;
+        myRows.push(<Cell key={i+x} handleClick={this.handleClick} data-value={boo}/>)
         rowVal.push(ranNum)
       }
       myGridArray.push(myRows);
@@ -51,7 +52,7 @@ class App extends Component {
   handleClick(e){
     e.preventDefault();
     console.log("value before:" + e.target.getAttribute('data-value'));
-    e.target.setAttribute('data-value', 1);
+    e.target.setAttribute('data-value', true);
     let board = this.state.board.slice();
     this.setState({
       board: board,
