@@ -58,8 +58,6 @@ class App extends Component {
     let col = e.target.getAttribute('data-key');
     let row = e.target.getAttribute('data-row');
     e.preventDefault();
-
-    e.target.setAttribute('data-value', true);
     let board = this.state.valBoard.slice();
     board[row][col] = true;
     this.setState({
