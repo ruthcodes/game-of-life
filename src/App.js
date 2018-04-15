@@ -23,9 +23,10 @@ class App extends Component {
     for (let i=0; i<this.state.height; i++){
       for (let x=0; x<this.state.width; x++){
         //let ranNum = Math.round((Math.random()));
+        //10% chance of cell being 'alive' at initiation
         let boo = (Math.random()*100) < 10;
         myRows.push(<Cell key={i+x} handleClick={this.handleClick} data-value={boo}/>)
-        rowVal.push(ranNum)
+        rowVal.push(boo)
       }
       myGridArray.push(myRows);
       myRows = [];
@@ -46,6 +47,30 @@ class App extends Component {
   }
 
   clearAll(){
+    var myGridArray = [];
+    var myRows = [];
+
+    var gridVal = [];
+    var rowVal = [];
+    for (let i=0; i<this.state.height; i++){
+      for (let x=0; x<this.state.width; x++){
+        //let ranNum = Math.round((Math.random()));
+        //10% chance of cell being 'alive' at initiation
+
+        myRows.push(<Cell key={i+x} handleClick={this.handleClick} data-value={false}/>)
+        rowVal.push(false)
+      }
+      myGridArray.push(myRows);
+      myRows = [];
+      gridVal.push(rowVal);
+      rowVal = [];
+    }
+
+    this.setState({
+      board: myGridArray,
+      valBoard: gridVal
+    })
+
 
   }
 
