@@ -8,11 +8,15 @@ class App extends Component {
       width: 40,
       height: 40,
       valBoard: [],
+      timerRunning: false,
+      generation: 0,
     };
     this.handleClick = this.handleClick.bind(this);
     this.clearAll = this.clearAll.bind(this);
     this.neighbours = this.neighbours.bind(this);
     this.aliveOrDead = this.aliveOrDead.bind(this);
+    this.startTimer = this.startTimer.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
   }
 
   componentDidMount(){
@@ -20,27 +24,53 @@ class App extends Component {
     var rowVal = [];
     for (let i=0; i<this.state.height; i++){
       for (let x=0; x<this.state.width; x++){
-        //10% chance of cell being 'alive' at initiation
-        let boo = (Math.random()*100) < 10;
+        //20% chance of cell being 'alive' at initiation
+        let boo = (Math.random()*100) < 20;
         rowVal.push(boo)
       }
       gridVal.push(rowVal);
       rowVal = [];
     }
-
+    this.startTimer();
     this.setState({
-      valBoard: gridVal
+      valBoard: gridVal,
+      timerRunning: true,
     })
 
   }
 
   componentDidUpdate(){
-    //console.log("updated");
-    //console.log(this.state.valBoard)
-    //this.aliveOrDead();
+  }
+
+  startTimer(){
+    if (!this.state.timerRunning){
+      console.log("starting a timer")
+      this.timerId = setInterval(()=>{
+          this.aliveOrDead();
+      }, 100);
+      this.setState({
+        timerRunning: true,
+      })
+    }
+
+  }
+
+  stopTimer(){
+    clearInterval(this.timerId);
+    this.setState({
+      timerRunning: false,
+      generation: 0,
+    })
+    console.log("stopped the timer");
+  }
+
+  componentWillUnmount(){
+    this.stopTimer();
+    console.log("unmounted")
   }
 
   clearAll(){
+    this.stopTimer();
     var gridVal = [];
     var rowVal = [];
     for (let i=0; i<this.state.height; i++){
@@ -122,8 +152,10 @@ class App extends Component {
     })
     this.setState({
       valBoard: newStatus,
+      generation: this.state.generation + 1,
     })
   }
+
 
   handleClick(e){
     let col = parseInt(e.target.getAttribute('data-key'),10);
@@ -141,7 +173,7 @@ class App extends Component {
 
   render() {
     return (
-        <Grid board={this.state.valBoard} clearAll={this.clearAll} handleClick={this.handleClick} aliveOrDead={this.aliveOrDead}/>
+        <Grid board={this.state.valBoard} clearAll={this.clearAll} handleClick={this.handleClick} startTimer={this.startTimer} generation={this.state.generation}/>
     );
   }
 }
@@ -157,7 +189,8 @@ function Grid(props){
     <div className="gridContainer">
       {props.board.map((nested, x) => nested.map((element, i) => <Cell key={i+x} data-row={x} data-key={i} handleClick={props.handleClick} data-value={element}/>))}
       <button onClick={props.clearAll}>Clear All</button>
-      <button onClick={props.aliveOrDead}>Start</button>
+      <button onClick={props.startTimer}>Start</button>
+      <p>Generation: {props.generation}</p>
     </div>
   )
 }
