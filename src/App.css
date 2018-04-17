@@ -9,7 +9,7 @@
 .gridContainer {
     width: 480px;
     height: 480px;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 [data-value="true"] {
