@@ -17,6 +17,7 @@ class App extends Component {
     this.aliveOrDead = this.aliveOrDead.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
+    this.pauseTimer = this.pauseTimer.bind(this);
   }
 
   componentDidMount(){
@@ -47,7 +48,7 @@ class App extends Component {
       console.log("starting a timer")
       this.timerId = setInterval(()=>{
           this.aliveOrDead();
-      }, 100);
+      }, 200);
       this.setState({
         timerRunning: true,
       })
@@ -61,7 +62,13 @@ class App extends Component {
       timerRunning: false,
       generation: 0,
     })
-    console.log("stopped the timer");
+  }
+
+  pauseTimer(){
+    clearInterval(this.timerId);
+    this.setState({
+      timerRunning: false,
+    })
   }
 
   componentWillUnmount(){
@@ -173,7 +180,7 @@ class App extends Component {
 
   render() {
     return (
-        <Grid board={this.state.valBoard} clearAll={this.clearAll} handleClick={this.handleClick} startTimer={this.startTimer} generation={this.state.generation}/>
+        <Grid board={this.state.valBoard} clearAll={this.clearAll} handleClick={this.handleClick} startTimer={this.startTimer} pause={this.pauseTimer} generation={this.state.generation}/>
     );
   }
 }
@@ -190,6 +197,7 @@ function Grid(props){
       {props.board.map((nested, x) => nested.map((element, i) => <Cell key={i+x} data-row={x} data-key={i} handleClick={props.handleClick} data-value={element}/>))}
       <button onClick={props.clearAll}>Clear All</button>
       <button onClick={props.startTimer}>Start</button>
+      <button onClick={props.pause}>Pause</button>
       <p>Generation: {props.generation}</p>
     </div>
   )
