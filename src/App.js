@@ -12,6 +12,7 @@ class App extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.clearAll = this.clearAll.bind(this);
     this.neighbours = this.neighbours.bind(this);
+    this.aliveOrDead = this.aliveOrDead.bind(this);
   }
 
   componentDidMount(){
@@ -34,7 +35,9 @@ class App extends Component {
   }
 
   componentDidUpdate(){
-    console.log(this.state.valBoard)
+    //console.log("updated");
+    //console.log(this.state.valBoard)
+    //this.aliveOrDead();
   }
 
   clearAll(){
@@ -87,13 +90,46 @@ class App extends Component {
     }
 
     let livingNeighbours = x.filter(Boolean);
+    //console.log(livingNeighbours.length);
     return livingNeighbours.length;
+  }
+
+  aliveOrDead(){
+    //need to push to separate rows
+    //console.log('running alive or dead')
+    let newStatus = [];
+    let newRow = [];
+    let boardCopy = this.state.valBoard.slice();
+    boardCopy.forEach((nested, x) =>{
+      nested.forEach((element, i) =>{
+        let neigh = this.neighbours(x,i);
+        if (element){
+          if ((neigh > 1) && (neigh < 4)){
+            newRow.push(true);
+          } else {
+            newRow.push(false);
+          }
+        } else {
+          if (neigh === 3){
+            newRow.push(true);
+          } else {
+            newRow.push(false)
+          }
+        }
+      })
+      newStatus.push(newRow);
+      newRow = [];
+    })
+    this.setState({
+      valBoard: newStatus,
+    })
   }
 
   handleClick(e){
     let col = parseInt(e.target.getAttribute('data-key'),10);
     let row = parseInt(e.target.getAttribute('data-row'),10);
-
+    //this.neighbours(row,col)
+    //this.aliveOrDead();
     e.preventDefault();
     let board = this.state.valBoard.slice();
     board[row][col] = true;
@@ -105,7 +141,7 @@ class App extends Component {
 
   render() {
     return (
-        <Grid board={this.state.valBoard} clearAll={this.clearAll} handleClick={this.handleClick}/>
+        <Grid board={this.state.valBoard} clearAll={this.clearAll} handleClick={this.handleClick} aliveOrDead={this.aliveOrDead}/>
     );
   }
 }
@@ -121,6 +157,7 @@ function Grid(props){
     <div className="gridContainer">
       {props.board.map((nested, x) => nested.map((element, i) => <Cell key={i+x} data-row={x} data-key={i} handleClick={props.handleClick} data-value={element}/>))}
       <button onClick={props.clearAll}>Clear All</button>
+      <button onClick={props.aliveOrDead}>Start</button>
     </div>
   )
 }
