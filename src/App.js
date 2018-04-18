@@ -5,6 +5,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
+      showPopup: false,
       width: 40,
       height: 40,
       valBoard: [],
@@ -18,6 +19,7 @@ class App extends Component {
     this.startTimer = this.startTimer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
     this.pauseTimer = this.pauseTimer.bind(this);
+    this.handlePopup = this.handlePopup.bind(this);
   }
 
   componentDidMount(){
@@ -40,7 +42,10 @@ class App extends Component {
 
   }
 
-  componentDidUpdate(){
+  handlePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup,
+    });
   }
 
   startTimer(){
@@ -180,7 +185,21 @@ class App extends Component {
 
   render() {
     return (
-        <Grid board={this.state.valBoard} clearAll={this.clearAll} handleClick={this.handleClick} startTimer={this.startTimer} pause={this.pauseTimer} generation={this.state.generation}/>
+      <div className="container">
+        <h1>{"Conway's Game of Life"}</h1>
+        <button onClick={this.handlePopup}>Huh?</button>
+        <Grid board={this.state.valBoard} handleClick={this.handleClick} />
+        <div className="information">
+          <button onClick={this.clearAll}>Clear All</button>
+          <button onClick={this.startTimer}>Start</button>
+          <button onClick={this.pauseTimer}>Pause</button>
+          <p className="generation">Generation: {this.state.generation}</p>
+        </div>
+        {this.state.showPopup ?
+          <Popup handlePopup={this.handlePopup}/>
+          : null
+        }
+      </div>
     );
   }
 }
@@ -193,16 +212,32 @@ function Cell(props) {
 
 function Grid(props){
   return(
-    <div className="gridContainer">
-      {props.board.map((nested, x) => nested.map((element, i) => <Cell key={i+x} data-row={x} data-key={i} handleClick={props.handleClick} data-value={element}/>))}
-      <button onClick={props.clearAll}>Clear All</button>
-      <button onClick={props.startTimer}>Start</button>
-      <button onClick={props.pause}>Pause</button>
-      <p>Generation: {props.generation}</p>
-    </div>
+      <div className="gridContainer">
+        {props.board.map((nested, x) => nested.map((element, i) => <Cell key={i+x} data-row={x} data-key={i} handleClick={props.handleClick} data-value={element}/>))}
+      </div>
   )
 }
 
+function Popup(props) {
+    return (
+      <div className='popup'>
+        <div className='popup_inner'>
+            <div className="popRowOne">
+              <div className="popHead"><h2>{"Conway's Game of Life"}</h2></div>
+            </div>
+            <div>
+              <p>{"The 'Game of Life' is an example of cellular automation devised by mathematician John Conway."}
+                  {"There are no players, but you can click on a cell to bring it to life and affect the automation."}
+                  {"Each cell is 'alive' (blue) or 'dead' (white)."}
+                  {"Every iteration, a living cell stays alive if it has 2 or 3 living neighbours."}
+                  {"A dead cell will come to life if it has exactly 3 neighbours."}
+              </p>
+              <button onClick={props.handlePopup}>OK</button>
+            </div>
+        </div>
+      </div>
+    );
+}
 
 
 
