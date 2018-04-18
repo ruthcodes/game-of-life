@@ -1,17 +1,148 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+
+body{
+  background-color: #23272a;
+  font-family: 'Roboto Mono', monospace;
+
+}
+
+#root{
+  padding: 10px;
+}
+
+h1{
+  text-align: center;
+  color: #99aab5;
+
+  padding: 25px;
+
+}
+
+button{
+  background-color: #99aab5;
+}
+
+.container{
+  text-align: center;
+
+  height: 100%;
+}
+
+.information{
+  text-align: center;
+  width: 480px;
+  margin: 0 auto;
+}
+
 .cell{
-  border: 1px solid black;
+  border: 1px solid #2c2f33;
   height: 10px;
   width: 10px;
   float: left;
   margin: 0;
+  background-color: #99aab5;
 }
 
 .gridContainer {
     width: 480px;
     height: 480px;
     margin: 20px auto;
+    margin-bottom: 10px;
 }
 
 [data-value="true"] {
-  background-color: red;
+  background-color: #23272a;
+}
+
+
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0,0,0, 0.5);
+}
+.popup_inner {
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  top: 25%;
+  bottom: 25%;
+  margin: auto;
+  background: #f9f9f9;
+  border-radius: 5px;
+  min-height: 310px;
+  max-height: 310px;
+  min-width: 100px;
+  overflow: scroll;
+}
+
+.popup_inner  p{
+  margin:20px;
+  text-align: justify;
+}
+
+.popup_inner, button{
+  text-align: center;
+  height: 25px;
+  margin-bottom: 10px;
+}
+
+.popRowOne{
+  height: 50px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 0 auto;
+  padding-bottom: 5px;
+}
+
+.generation{
+  color: #99aab5;
+}
+
+@media (max-width:600px) {
+  h1{
+    padding: 25px 5px;
+  }
+  .cell{
+
+    height: 5px;
+    width: 5px;
+    float: left;
+    margin: 0;
+
+  }
+
+  .information{
+    text-align: center;
+    width: 280px;
+    margin: 0 auto;
+  }
+
+  .gridContainer {
+      width: 280px;
+      height: 280px;
+      margin: 20px auto;
+      margin-bottom: 10px;
+  }
+
+
+  .popup_inner p{
+    font-size: 15px;
+    text-align: center;
+    margin: 8px 3px;
+  }
+  h1{
+    font-size: 20px;
+  }
+  h2{
+    font-size: 20px;
+  }
+  .popRowOne{
+    padding-bottom: 0px;
+  }
 }
