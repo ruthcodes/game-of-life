@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+@import url('https://fonts.googleapis.com/css?family=Bungee+Hairline');
 
 body{
   background-color: #23272a;
-  font-family: 'Roboto Mono', monospace;
-
+  background: radial-gradient(black, #23272a);
+ font-family: 'Bungee Hairline', cursive;
 }
 
 #root{
@@ -13,19 +13,21 @@ body{
 h1{
   text-align: center;
   color: #99aab5;
-
-  padding: 25px;
-
+  padding: 5px;
+  margin: 2px;
+  font-weight: bolder;
+  font-size:45px;
 }
 
 button{
   background-color: #99aab5;
+  border-radius:3px;
+  margin:2px;
 }
 
 .container{
   text-align: center;
 
-  height: 100%;
 }
 
 .information{
@@ -75,8 +77,8 @@ button{
   margin: auto;
   background: #f9f9f9;
   border-radius: 5px;
-  min-height: 310px;
-  max-height: 310px;
+  min-height: 400px;
+  max-height: 400px;
   min-width: 100px;
   overflow: scroll;
 }
@@ -84,6 +86,7 @@ button{
 .popup_inner  p{
   margin:20px;
   text-align: justify;
+  font-weight: bold;
 }
 
 .popup_inner, button{
@@ -102,14 +105,39 @@ button{
 
 .generation{
   color: #99aab5;
+  font-weight: bold;
+}
+
+@media (max-width:670px){
+  h1{
+    font-size:30px;
+  }
+
+  h2{
+    font-size: 20px;
+    margin-bottom: 15px;
+    line-height: 20px;
+  }
+
+  .popup_inner {
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  top: 15%;
+  bottom: 25%;
+}
+
+
 }
 
 @media (max-width:600px) {
+
+
   h1{
-    padding: 25px 5px;
+    padding: 25px 15px;
+
   }
   .cell{
-
     height: 5px;
     width: 5px;
     float: left;
@@ -135,12 +163,15 @@ button{
     font-size: 15px;
     text-align: center;
     margin: 8px 3px;
+
   }
   h1{
     font-size: 20px;
   }
   h2{
     font-size: 20px;
+    margin-bottom: 15px;
+    line-height: 20px;
   }
   .popRowOne{
     padding-bottom: 0px;
